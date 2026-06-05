@@ -6,8 +6,6 @@
 let currentFriendIdx = null;
 let currentSongIdx = 0;
 let isPlaying = false;
-let ytPlayer = null;
-let ytReady = false;
 let ffSource = null;          // fast-forward audio node
 let lyricsInterval = null;
 let lyricsLineIdx = 0;
@@ -57,19 +55,6 @@ function showToggleHint() {
   setTimeout(() => msg.classList.remove('visible'), 5000);
   toggleHintShown = true;
 }
-
-// ---- YouTube IFrame API ----
-window.onYouTubeIframeAPIReady = function () {
-  ytPlayer = new YT.Player('yt-player', {
-    height: '1',
-    width: '1',
-    playerVars: { autoplay: 0, controls: 0, rel: 0, modestbranding: 1 },
-    events: {
-      onReady: () => { ytReady = true; },
-      onStateChange: onYTStateChange
-    }
-  });
-};
 
 function onYTStateChange(e) {
   if (e.data === YT.PlayerState.ENDED) {
@@ -210,11 +195,6 @@ function loadSongUI(songIdx) {
   // Reset lyrics
   clearLyrics();
 
-  // Load YouTube (cued, not playing)
-  if (ytReady && song.youtubeId && song.youtubeId !== 'PLACEHOLDER') {
-    ytPlayer.cueVideoById(song.youtubeId);
-  }
-
   btnPlay.textContent = '▶';
 }
 
@@ -259,48 +239,11 @@ function playCurrentSong() {
   startLyrics();
 }
 
-// function playCurrentSong() {
-//   const song = FRIENDS[currentFriendIdx].songs[currentSongIdx];
-//   const container = document.getElementById('yt-player-container');
-//   AudioFX.hiss(1.5); 
-
-//   if (song.spotifyId) {
-//     const cardWrap = document.querySelector('.song-card-wrap');
-//     cardWrap.innerHTML = `
-//       <a href="https://open.spotify.com/track/${song.spotifyId}" target="_blank" 
-//          style="display:flex;flex-direction:column;align-items:center;justify-content:center;
-//                 gap:0.5rem;text-decoration:none;color:inherit;width:100%;height:100%;
-//                 padding:0.5rem;text-align:center;">
-//         <span style="font-size:1.8rem;">🎵</span>
-//         <span style="font-family:'Special Elite',monospace;font-size:0.75rem;color:#555;">
-//           listen on<br>Spotify ↗
-//         </span>
-//       </a>`;
-//     startLyrics();
-//     setPlaying(true);
-//   } else if (ytReady && song.youtubeId && song.youtubeId !== 'PLACEHOLDER') {
-//     setTimeout(() => ytPlayer.playVideo(), 300);
-//     setPlaying(true);
-//     startLyrics();
-//   }
-// }
-
-
 function pauseCurrentSong() {
   audioEl.pause();
   setPlaying(false);
   pauseLyrics();
 }
-// function pauseCurrentSong() {
-//   const song = FRIENDS[currentFriendIdx].songs[currentSongIdx];
-//   if (song.spotifyId) {
-//     document.getElementById('yt-player-container').innerHTML = '';
-//   } else if (ytReady) {
-//     ytPlayer.pauseVideo();
-//   }
-//   setPlaying(false);
-//   pauseLyrics();
-// }
 
 function setPlaying(val) {
   isPlaying = val;
@@ -333,7 +276,6 @@ btnPrev.addEventListener('click', () => {
   if (currentSongIdx > 0) {
     AudioFX.click();
     const wasPlaying = isPlaying;
-    if (ytReady) ytPlayer.stopVideo();
     setPlaying(false);
     clearLyrics();
     currentSongIdx--;
@@ -353,7 +295,6 @@ btnFF.addEventListener('click', () => {
   const friend = FRIENDS[currentFriendIdx];
   if (currentSongIdx < friend.songs.length - 1) {
     const wasPlaying = isPlaying;
-    if (ytReady) ytPlayer.stopVideo();
     setPlaying(false);
     clearLyrics();
     triggerFastForward(() => {
@@ -399,7 +340,6 @@ btnEject.addEventListener('click', () => {
   AudioFX.click();
   audioEl.pause();  // add this line
   audioEl.src = '';
-  if (ytReady) ytPlayer.stopVideo();
   setPlaying(false);
   clearLyrics();
 
