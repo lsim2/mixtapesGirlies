@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ---- Shelf interactions ----
 spineHotspots.forEach(hotspot => {
   hotspot.addEventListener('mouseenter', () => {
+    if (window.innerWidth <= 600) return;  // skip preview on mobile
     const idx = parseInt(hotspot.dataset.friend);
     showPreview(idx);
     spineHotspots.forEach(h => h.classList.remove('active-spine'));
