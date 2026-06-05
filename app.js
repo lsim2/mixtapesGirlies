@@ -94,6 +94,17 @@ document.addEventListener('touchstart', () => {
   AudioFX.resume();
 }, { once: true });
 
+document.addEventListener('click', () => {
+  AudioFX.resume();
+}, { once: true });
+
+// Also warm up on first hotspot touch specifically
+spineHotspots.forEach(hotspot => {
+  hotspot.addEventListener('touchstart', () => {
+    AudioFX.resume();
+  }, { once: true });
+});
+
 // ---- Shelf interactions ----
 spineHotspots.forEach(hotspot => {
   hotspot.addEventListener('mouseenter', () => {
@@ -132,7 +143,7 @@ function showPreview(idx) {
 
 // ---- Insert cassette → go to player ----
 function insertCassette(idx) {
-  AudioFX.click();
+  setTimeout(() => AudioFX.click(), 50);  // small delay for context to resume
   currentFriendIdx = idx;
   currentSongIdx = 0;
   isPlaying = false;
@@ -212,7 +223,8 @@ btnPlay.addEventListener('click', () => {
 
 let audioEl = new Audio();
 audioEl.onended = onTrackEnded;
-function playCurrentSong() {
+async function playCurrentSong() {
+  await AudioFX.resume();
   const song = FRIENDS[currentFriendIdx].songs[currentSongIdx];
 
   const cardImg = document.getElementById('song-card-img');
