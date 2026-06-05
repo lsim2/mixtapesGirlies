@@ -712,6 +712,30 @@ body::before {
   opacity: 1;
 }
 
+/* Hint message */
+.hint-msg {
+  position: fixed;
+  bottom: 10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.6rem 1.4rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 200;
+  min-width: 300px;
+  line-height: 1.5;
+}
+
+.hint-msg.visible {
+  opacity: 1;
+}
+
 /* End of tape message */
 .tape-end-msg {
   position: fixed;
