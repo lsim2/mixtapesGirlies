@@ -38,6 +38,13 @@ body {
   background-position: center; */
 }
 
+body {
+  background-image: 
+    repeating-linear-gradient(rgba(180, 160, 120, 0.2) 0 1px, transparent 1px 100%),
+    repeating-linear-gradient(90deg, rgba(180, 160, 120, 0.2) 0 1px, transparent 1px 100%);
+  background-size: 32px 32px;
+}
+
 /* body::after {
   content: '';
   position: fixed;
@@ -397,6 +404,53 @@ body::before {
   color: var(--ink);
 }
 
+.eject-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.eject-tri {
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 11px solid var(--ink);
+}
+
+.eject-bar {
+  width: 18px;
+  height: 3px;
+  background: var(--ink);
+  border-radius: 1px;
+}
+
+.ctrl-eject:hover .eject-tri { border-bottom-color: white; }
+.ctrl-eject:hover .eject-bar { background: white; }
+
+.tri-right {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 10px solid var(--ink);
+}
+
+.tri-left {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 10px solid var(--ink);
+}
+
+.ctrl-btn:hover .tri-right { border-left-color: white; }
+.ctrl-btn:hover .tri-left { border-right-color: white; }
+.ctrl-play:hover .tri-right { border-left-color: white; }
+
 /* ---- Song area ---- */
 /* .song-area {
   width: 100%;
@@ -520,9 +574,9 @@ body::before {
   max-width: 350px;
   min-height: 150px;
   padding: 0.9rem 1rem;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.65);
   border: 1px dashed var(--theme);
-  border-radius: var(--radius);
+  border-radius: 4px;
 }
 
 /* Mobile */

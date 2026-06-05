@@ -56,10 +56,15 @@
           </div>
           <div class="controls">
             <button class="ctrl-btn" id="btn-prev" title="Previous track">⏮</button>
-            <button class="ctrl-btn" id="btn-rewind" title="Rewind">⏪</button>
+            <button class="ctrl-btn" id="btn-rewind" title="Rewind"><span class="tri-left"></span><span class="tri-left"></span></button>
             <button class="ctrl-btn ctrl-play" id="btn-play" title="Play/Pause">▶</button>
-            <button class="ctrl-btn" id="btn-ff" title="Fast forward / next track">⏩</button>
-            <button class="ctrl-btn ctrl-eject" id="btn-eject" title="Eject — back to shelf">▲</button>
+            <button class="ctrl-btn" id="btn-ff" title="Fast forward / next track"><span class="tri-right"></span><span class="tri-right"></span></button>
+            <button class="ctrl-btn ctrl-eject" id="btn-eject" title="Eject">
+              <span class="eject-icon">
+                <span class="eject-tri"></span>
+                <span class="eject-bar"></span>
+              </span>
+            </button>
           </div>
           <div class="lyrics-wrap" id="lyrics-wrap">
             <div class="lyrics-box" id="lyrics-box"></div>

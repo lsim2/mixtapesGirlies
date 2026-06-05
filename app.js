@@ -39,6 +39,110 @@ const songCardPlaceholder = document.getElementById('song-card-placeholder');
 const lyricsBox = document.getElementById('lyrics-box');
 const playerTitle = document.querySelector('.player-title');
 
+let hintsShown = false;
+
+function showHints() {
+  if (hintsShown) return;
+  hintsShown = true;
+
+  let step = 0;
+
+  const hint = document.createElement('div');
+  hint.style.cssText = `
+    position: fixed; inset: 0; z-index: 300;
+    pointer-events: none;
+    font-family: 'Special Elite', monospace;
+  `;
+  document.body.appendChild(hint);
+
+  const steps = [
+    {
+      text: 'press play to start the tape',
+      getTarget: () => document.getElementById('btn-play'),
+      arrowDir: 'up'
+    },
+    {
+      text: 'click the cassette to view song card',
+      getTarget: () => document.getElementById('deck').querySelector('.deck-inner'),
+      arrowDir: 'up'
+    },
+    {
+      text: 'click eject to go back to shelf',
+      getTarget: () => document.getElementById('btn-eject'),
+      arrowDir: 'up'
+    }
+  ];
+
+  function showStep(idx) {
+    hint.innerHTML = '';
+    if (idx >= steps.length) {
+      hint.remove();
+      return;
+    }
+
+    const s = steps[idx];
+    const targetEl = s.getTarget();
+    const rect = targetEl.getBoundingClientRect();
+
+    // Backdrop that only covers away from target
+    const backdrop = document.createElement('div');
+    backdrop.style.cssText = `
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      pointer-events: all;
+    `;
+    backdrop.addEventListener('click', () => showStep(idx + 1));
+    hint.appendChild(backdrop);
+
+    // Highlight ring around target
+    const highlight = document.createElement('div');
+    highlight.style.cssText = `
+      position: fixed;
+      left: ${rect.left - 6}px;
+      top: ${rect.top - 6}px;
+      width: ${rect.width + 12}px;
+      height: ${rect.height + 12}px;
+      border: 2px dashed white;
+      border-radius: 10px;
+      pointer-events: none;
+      z-index: 301;
+    `;
+    hint.appendChild(highlight);
+
+    // Tooltip bubble below target
+    const bubble = document.createElement('div');
+    bubble.style.cssText = `
+      position: fixed;
+      left: ${rect.left + rect.width / 2}px;
+      top: ${rect.bottom + 18}px;
+      transform: translateX(-50%);
+      background: white;
+      color: #2a2018;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 302;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    `;
+
+    // Arrow pointing up to target
+    bubble.innerHTML = `
+      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+        width:0;height:0;border-left:8px solid transparent;
+        border-right:8px solid transparent;border-bottom:8px solid white;"></div>
+      ${s.text}
+      <span style="margin-left:0.5rem;color:#aaa;font-size:0.75rem;">
+        (click anywhere to continue)
+      </span>
+    `;
+    hint.appendChild(bubble);
+  }
+
+  showStep(0);
+}
+
 // ---- YouTube IFrame API ----
 window.onYouTubeIframeAPIReady = function () {
   ytPlayer = new YT.Player('yt-player', {
@@ -135,6 +239,8 @@ function insertCassette(idx) {
   pageShelf.classList.remove('active');
   pagePlayer.classList.add('active');
   window.scrollTo(0, 0);
+
+  // TODO: work on hints
 }
 
 // ---- Apply friend colour theme ----
