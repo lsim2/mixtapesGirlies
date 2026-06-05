@@ -11,14 +11,14 @@ const AudioFX = (() => {
     return ctx;
   }
 
-  function resume() {
+  async function resume() {
     const c = getCtx();
-    if (c.state === 'suspended') c.resume();
+    if (c.state === 'suspended') await c.resume();
   }
 
   // Mechanical click — short noise burst
-  function click() {
-    resume();
+  async function click() {
+    await resume();
     const c = getCtx();
     const buf = c.createBuffer(1, c.sampleRate * 0.06, c.sampleRate);
     const data = buf.getChannelData(0);
