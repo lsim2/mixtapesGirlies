@@ -169,7 +169,7 @@ function insertCassette(idx) {
   pageShelf.classList.remove('active');
   pagePlayer.classList.add('active');
   window.scrollTo(0, 0);
-  if (!toggleHintShown) showToggleHint();
+  // if (!toggleHintShown) showToggleHint();
 }
 
 // ---- Apply friend colour theme ----
