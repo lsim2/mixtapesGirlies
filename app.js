@@ -44,6 +44,7 @@ const backHint = `<p style="font-size:1rem;">3. press <svg width="16" height="16
 
 let toggleHintShown = false;
 function showToggleHint() {
+  AudioFX.resume(); 
   let msg = document.querySelector('.hint-msg');
   const hint = `<p style="font-size:1rem;">1. tap cassette to see card</p>${playHint}${backHint}`;
   if (!msg) {
@@ -223,8 +224,8 @@ btnPlay.addEventListener('click', () => {
 
 let audioEl = new Audio();
 audioEl.onended = onTrackEnded;
-async function playCurrentSong() {
-  await AudioFX.resume();
+function playCurrentSong() {
+  AudioFX.resume();
   const song = FRIENDS[currentFriendIdx].songs[currentSongIdx];
 
   const cardImg = document.getElementById('song-card-img');
