@@ -533,8 +533,17 @@ body::before {
   }
 
   .player-right {
-    width: clamp(140px, 60vw, 220px);
-    margin-left: 30px; 
+    width: 100% !important;
+    max-width: min(380px, 75vw);
+    margin: 0 auto;
+  }
+
+  .song-card-wrap {
+    width: 100% !important;
+  }
+
+  .card-toggle-btn {
+    display: none;
   }
 }
 

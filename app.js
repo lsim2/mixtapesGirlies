@@ -387,8 +387,14 @@ cardToggleBtn.addEventListener('click', () => {
 });
 
 document.getElementById('deck').addEventListener('click', () => {
-  playerRight.classList.remove('collapsed');
-  cardToggleBtn.textContent = '◀';
+  const isCollapsed = playerRight.classList.contains('collapsed');
+  if (isCollapsed) {
+    playerRight.classList.remove('collapsed');
+    cardToggleBtn.textContent = '◀';
+  } else {
+    playerRight.classList.add('collapsed');
+    cardToggleBtn.textContent = '▶';
+  }
 });
 
 // ---- Spools ----
