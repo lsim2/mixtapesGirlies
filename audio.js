@@ -36,8 +36,8 @@ const AudioFX = (() => {
   }
 
   // Tape fast-forward — 3 seconds of whirring noise with pitch variation
-  function fastForward(onDone) {
-    resume();
+  async function fastForward(onDone) {
+    await resume();
     click();
     const c = getCtx();
     setTimeout(() => {
@@ -63,8 +63,8 @@ const AudioFX = (() => {
   }
 
   // Tape stop — brief deceleration thunk
-  function stop() {
-    resume();
+  async function stop() {
+    await resume();
     const c = getCtx();
     const duration = 0.18;
     const buf = c.createBuffer(1, c.sampleRate * duration, c.sampleRate);
@@ -83,8 +83,8 @@ const AudioFX = (() => {
     src.start();
   }
 
-  function hiss(duration = 1.5) {
-    resume();
+  async function hiss(duration = 1.5) {
+    await resume();
     const c = getCtx();
     const buf = c.createBuffer(1, c.sampleRate * duration, c.sampleRate);
     const data = buf.getChannelData(0);
@@ -102,7 +102,7 @@ const AudioFX = (() => {
     gain.connect(c.destination);
     src.start();
   }
-  
+
   return { click, fastForward, stop, hiss, resume };
 
 })();
