@@ -3,12 +3,12 @@
 // =============================================
 
 // ---- Audio warmup ----
-document.addEventListener('touchstart', function handler() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  ctx.resume().then(() => {
-    document.removeEventListener('touchstart', handler);
-  });
-}, false);
+const silentAudio = new Audio('sounds/silent.m4a');
+document.addEventListener('touchstart', () => {
+  silentAudio.play().then(() => {
+    AudioFX.resume();
+  }).catch(() => {});
+}, { once: true });
 
 // ---- State ----
 let currentFriendIdx = null;
