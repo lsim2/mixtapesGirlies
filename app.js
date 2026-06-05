@@ -2,6 +2,14 @@
 // MIXTAPE APP — Main Logic
 // =============================================
 
+// ---- Audio warmup ----
+document.addEventListener('touchstart', function handler() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  ctx.resume().then(() => {
+    document.removeEventListener('touchstart', handler);
+  });
+}, false);
+
 // ---- State ----
 let currentFriendIdx = null;
 let currentSongIdx = 0;
@@ -75,12 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
   tag.src = 'https://www.youtube.com/iframe_api';
   document.head.appendChild(tag);
 });
-
-// ---- Audio warmup ----
-document.querySelector('.shelf-container').addEventListener('touchstart', () => {
-  AudioFX.resume();
-});
-
 
 document.addEventListener('touchstart', () => {
   AudioFX.resume();

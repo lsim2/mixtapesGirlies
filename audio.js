@@ -7,13 +7,17 @@ const AudioFX = (() => {
   let ctx = null;
 
   function getCtx() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
     return ctx;
   }
-
+  
   function resume() {
     const c = getCtx();
-    if (c.state === 'suspended') c.resume();
+    if (c.state === 'suspended') {
+      c.resume();
+    }
   }
 
   // Mechanical click — short noise burst
