@@ -90,6 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.head.appendChild(tag);
 });
 
+document.addEventListener('touchstart', () => {
+  AudioFX.resume();
+}, { once: true });
+
 // ---- Shelf interactions ----
 spineHotspots.forEach(hotspot => {
   hotspot.addEventListener('mouseenter', () => {

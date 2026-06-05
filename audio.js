@@ -39,8 +39,8 @@ const AudioFX = (() => {
   function fastForward(onDone) {
     resume();
     click();
+    const c = getCtx();
     setTimeout(() => {
-      const c = getCtx();
       const duration = 2.0;
       const buf = c.createBuffer(1, c.sampleRate * duration, c.sampleRate);
       const data = buf.getChannelData(0);
