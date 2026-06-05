@@ -91,6 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.head.appendChild(tag);
 });
 
+// ---- Audio warmup ----
+document.querySelector('.shelf-container').addEventListener('touchstart', () => {
+  AudioFX.resume();
+});
+
+
 document.addEventListener('touchstart', () => {
   AudioFX.resume();
 }, { once: true });
@@ -144,7 +150,7 @@ function showPreview(idx) {
 
 // ---- Insert cassette → go to player ----
 function insertCassette(idx) {
-  setTimeout(() => AudioFX.click(), 50);  // small delay for context to resume
+  setTimeout(() => AudioFX.click(), 80);
   currentFriendIdx = idx;
   currentSongIdx = 0;
   isPlaying = false;
