@@ -39,12 +39,13 @@ const songCardPlaceholder = document.getElementById('song-card-placeholder');
 const lyricsBox = document.getElementById('lyrics-box');
 const playerTitle = document.querySelector('.player-title');
 const ejectHint = `<p style="font-size:1rem;">end of tape -- press <svg width="16" height="16" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;margin: 0 2px;"><polygon points="50,10 90,60 10,60" fill="white"/><rect x="10" y="68" width="80" height="18" rx="3" fill="white"/></svg> to go back to shelf</p>`;
-const backHint = `<p style="font-size:1rem;">2. press <svg width="16" height="16" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;margin: 0 2px;"><polygon points="50,10 90,60 10,60" fill="white"/><rect x="10" y="68" width="80" height="18" rx="3" fill="white"/></svg> to return</p>`;
+const playHint = `<p style="font-size:1rem;">2. press ▶ to start track</p>`
+const backHint = `<p style="font-size:1rem;">3. press <svg width="16" height="16" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;margin: 0 2px;"><polygon points="50,10 90,60 10,60" fill="white"/><rect x="10" y="68" width="80" height="18" rx="3" fill="white"/></svg> to return</p>`;
 
 let toggleHintShown = false;
 function showToggleHint() {
   let msg = document.querySelector('.hint-msg');
-  const hint = `<p style="font-size:1rem;">1. tap cassette to see card</p>${backHint}`;
+  const hint = `<p style="font-size:1rem;">1. tap cassette to see card</p>${playHint}${backHint}`;
   if (!msg) {
     msg = document.createElement('div');
     msg.className = 'hint-msg';
