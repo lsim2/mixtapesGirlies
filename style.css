@@ -1,0 +1,611 @@
+/* =============================================
+   MIXTAPE — Stylesheet
+   Font: Special Elite (Google Fonts)
+   ============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: 'Special Elite', 'Courier New', monospace;
+  --paper: #f5efe0;
+  --paper-dark: #e8dcc8;
+  --ink: #2a2018;
+  --wood: #6b3f1a;
+  --wood-dark: #3d2008;
+  --theme: #aaaaaa;       /* overridden per-friend by JS */
+  --theme-dark: #666666;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+html, body {
+  height: 100%;
+  background: var(--paper);
+  font-family: var(--font);
+  color: var(--ink);
+  overflow-x: hidden;
+  /* background-image: url('images/background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center; */
+}
+
+/* body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  pointer-events: none;
+  z-index: 0;
+} */
+
+/* .page {
+  position: relative;
+  z-index: 1;
+} */
+
+/* Subtle paper grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* =============================================
+   PAGE SWITCHING
+   ============================================= */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* =============================================
+   SHELF PAGE
+   ============================================= */
+.shelf-title {
+  text-align: center;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  padding: 2rem 1rem 1rem;
+  letter-spacing: 0.04em;
+  color: var(--wood-dark);
+}
+
+.shelf-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 2rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Shelf container with hotspots */
+.shelf-container {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(420px, 90vw);
+}
+
+.shelf-img {
+  width: 90%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.spine-hotspot {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 4px;
+}
+
+.spine-hotspot:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.spine-hotspot.active-spine {
+  background: rgba(255,255,255,0.22);
+  outline: 2px solid rgba(255,255,255,0.5);
+}
+
+/* Preview panel */
+.shelf-preview {
+  flex: 1;
+  min-width: 220px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.preview-hint {
+  font-size: 1rem;
+  color: #888;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.preview-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.preview-content img {
+  width: 100%;
+  max-width: 340px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+.preview-content img:hover {
+  transform: rotate(-1deg) scale(1.02);
+}
+
+.preview-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+#preview-songs-count {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.insert-btn {
+  font-family: var(--font);
+  font-size: 1rem;
+  background: var(--theme);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.05em;
+}
+
+.insert-btn:hover {
+  background: var(--theme-dark);
+  transform: translateY(-1px);
+}
+
+.insert-btn:active {
+  transform: translateY(1px);
+}
+
+/* =============================================
+   PLAYER PAGE
+   ============================================= */
+.player-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1.2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.player-title {
+  font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+  letter-spacing: 0.04em;
+  color: var(--wood-dark);
+  text-align: center;
+}
+
+/* ---- Deck ---- */
+.deck {
+  width: min(380px, 75vw);  /* was min(560px, 92vw) */
+  background: var(--paper-dark);
+  border-radius: 16px;
+  border: 3px solid var(--theme);
+  box-shadow: var(--shadow), inset 0 2px 8px rgba(0,0,0,0.08);
+  padding: 1rem;
+  transition: border-color 0.4s;
+  cursor: pointer;
+}
+
+.deck:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+.deck-inner {
+  position: relative;
+  width: 100%;
+}
+
+.deck-cassette {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.spool {
+  /* remove transform from here entirely, use top+margin trick instead */
+  position: absolute;
+  top: 47%;
+  width: 20%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  margin-top: -10%;   /* replaces translateY(-50%) — half of width value */
+  pointer-events: none;
+}
+
+/* .spool::after {
+  content: '⋆';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 860%;
+  color: rgba(255,255,255,1);
+} */
+
+.spool::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50%2C8 13.6%2C71 86.4%2C71' fill='white'/%3E%3Cpolygon points='50%2C92 86.4%2C29 13.6%2C29' fill='white'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+.spool.spinning::after {
+  animation: spin-spool 2.4s linear infinite;
+}
+
+.spool-left  { left: calc(38.5% - 9.5%); }
+.spool-right { left: calc(61.5% - 11%); }
+
+@keyframes spin-spool {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* .spool.spinning {
+  animation: spin-spool 2.4s linear infinite;
+} */
+
+/* ---- Track info ---- */
+.track-info {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.track-title {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  letter-spacing: 0.03em;
+}
+
+.track-artist {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+}
+
+.track-counter {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 0.2rem;
+}
+
+/* ---- Controls ---- */
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ctrl-btn {
+  font-family: var(--font);
+  font-size: 1.1rem;
+  width: 52px;
+  height: 52px;
+  background: var(--paper-dark);
+  border: 2px solid var(--theme);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--theme-dark);
+  transition: box-shadow 0.08s, transform 0.08s, background 0.3s, border-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn:hover { background: var(--theme); color: white; }
+
+.ctrl-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--theme-dark);
+}
+
+.ctrl-play {
+  width: 62px;
+  height: 62px;
+  font-size: 1.3rem;
+  background: var(--theme);
+  color: white;
+  box-shadow: 0 4px 0 var(--theme-dark);
+}
+
+.ctrl-play:hover { background: var(--theme-dark); }
+
+.ctrl-eject {
+  background: var(--paper-dark);
+  color: #888;
+  border-color: #ccc;
+  box-shadow: 0 3px 0 #bbb;
+}
+.ctrl-eject:hover { background: #ddd; color: var(--ink); }
+
+/* ---- Song area ---- */
+/* .song-area {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.4rem;
+  align-items: flex-start;
+}
+
+.song-card-wrap {
+  flex: 0 0 auto;
+  width: clamp(100px, 28vw, 160px);
+  aspect-ratio: 1;
+  background: var(--paper-dark);
+  border-radius: var(--radius);
+  border: 2px solid var(--theme);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: border-color 0.4s;
+  position: relative;
+}
+
+.song-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.song-card-placeholder {
+  font-size: 2.5rem;
+  color: #ccc;
+} */
+
+
+.player-main {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.player-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 1;
+}
+
+.player-right {
+  flex: 0 0 auto;
+  width: clamp(180px, 35vw, 260px);
+  position: relative;
+  transition: width 0.3s ease;
+}
+
+.player-right.collapsed {
+  width: 0 !important;
+  overflow: hidden;
+}
+
+.card-toggle-btn {
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 48px;
+  background: var(--theme);
+  border: none;
+  border-radius: 6px 0 0 6px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.card-toggle-btn:hover {
+  background: var(--theme-dark);
+}
+
+.song-card-wrap {
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: var(--paper-dark);
+  border-radius: var(--radius);
+  border: 2px solid var(--theme);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: border-color 0.4s;
+}
+
+.song-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.song-card-placeholder {
+  font-size: 2.5rem;
+  color: #ccc;
+}
+
+/* Lyrics — plain, no box */
+.lyrics-wrap {
+  width: 100%;
+  min-width: 200px;
+  max-width: 350px;
+  min-height: 150px;
+  padding: 0.9rem 1rem;
+  background: rgba(255,255,255,0.45);
+  border: 1px dashed var(--theme);
+  border-radius: var(--radius);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .player-main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .player-right {
+    width: clamp(140px, 60vw, 220px);
+  }
+}
+/* Lyrics */
+/* .lyrics-wrap {
+  flex: 1;
+  min-height: 130px;
+  min-width: 200px;
+  max-width: 300px;
+  background: rgba(255,255,255,0.45);
+  border: 1px dashed var(--theme);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  overflow: hidden;
+  transition: border-color 0.4s;
+}*/
+
+.lyrics-box {
+  font-size: clamp(0.78rem, 2vw, 0.92rem);
+  line-height: 1;
+  color: var(--ink);
+  white-space: pre-wrap;
+} 
+
+.lyrics-line {
+  display: block;
+  opacity: 0;
+  animation: line-fade-in 0.4s forwards;
+}
+
+@keyframes line-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Typewriter cursor */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--ink);
+  vertical-align: text-bottom;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* =============================================
+   RESPONSIVE — mobile stacks song area
+   ============================================= */
+@media (max-width: 600px) {
+  .shelf-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem 2rem;
+    gap: 1.2rem;
+  }
+
+  .shelf-container { width: min(360px, 92vw); }
+  .shelf-preview { max-width: 360px; width: 100%; }
+
+  .song-area {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .song-card-wrap {
+    width: clamp(120px, 50vw, 180px);
+  }
+}
+
+/* =============================================
+   FF OVERLAY (fast-forward visual)
+   ============================================= */
+.ff-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.35);
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.ff-overlay.visible { opacity: 1; }
+
+/* End of tape message */
+.tape-end-msg {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 200;
+}
+.tape-end-msg.visible { opacity: 1; }

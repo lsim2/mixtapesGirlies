@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>a mixtape for you :)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ========== SHELF PAGE ========== -->
+  <div id="page-shelf" class="page active">
+    <div class="shelf-title">a mixtape for you :)</div>
+    <div class="shelf-layout">
+      <!-- Shelf with hotspot overlays -->
+      <div class="shelf-container">
+        <img src="images/shelf.png" alt="cassette shelf" class="shelf-img" id="shelf-img" />
+        <!-- Hotspots positioned as % of image — order matches left→right in 25.png: C, E_Blue, J, E_Purple, S -->
+        <div class="spine-hotspot" data-friend="0" style="left:0%;width:18%"></div>
+        <div class="spine-hotspot" data-friend="1" style="left:18%;width:16%"></div>
+        <div class="spine-hotspot" data-friend="2" style="left:35%;width:17%"></div>
+        <div class="spine-hotspot" data-friend="3" style="left:53%;width:18%"></div>
+        <div class="spine-hotspot" data-friend="4" style="left:72%;width:18%"></div>
+      </div>
+
+      <!-- Preview panel -->
+      <div class="shelf-preview" id="shelf-preview">
+        <div class="preview-hint">hover a cassette to peek inside ✦</div>
+        <div class="preview-content" id="preview-content" style="display:none">
+          <img id="preview-img" src="" alt="" />
+          <div class="preview-label">
+            <span id="preview-songs-count"></span>
+            <button id="preview-insert-btn" class="insert-btn">insert tape ▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PLAYER PAGE ========== -->
+  <div id="page-player" class="page">
+    <div class="player-wrap">
+      <div class="player-title">a mixtape for you :)</div>
+      <div class="player-main">
+        <div class="player-left">
+          <div class="deck" id="deck">
+            <div class="deck-inner">
+              <img id="deck-cassette-img" src="" alt="cassette" class="deck-cassette" />
+              <div class="spool spool-left" id="spool-left"></div>
+              <div class="spool spool-right" id="spool-right"></div>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="ctrl-btn" id="btn-prev" title="Previous track">⏮</button>
+            <button class="ctrl-btn" id="btn-rewind" title="Rewind">⏪</button>
+            <button class="ctrl-btn ctrl-play" id="btn-play" title="Play/Pause">▶</button>
+            <button class="ctrl-btn" id="btn-ff" title="Fast forward / next track">⏩</button>
+            <button class="ctrl-btn ctrl-eject" id="btn-eject" title="Eject — back to shelf">▲</button>
+          </div>
+          <div class="lyrics-wrap" id="lyrics-wrap">
+            <div class="lyrics-box" id="lyrics-box"></div>
+          </div>
+        </div>
+        <div class="player-right">
+          <button class="card-toggle-btn" id="card-toggle-btn" title="Toggle song card">◀</button>
+          <div class="song-card-wrap">
+            <img id="song-card-img" src="" alt="" class="song-card-img" />
+            <div class="song-card-placeholder" id="song-card-placeholder">♫</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden YouTube player -->
+  <div id="yt-player-container"
+    style="position:fixed;bottom:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;">
+    <div id="yt-player"></div>
+  </div>
+
+  <!-- Audio for sound effects (generated via Web Audio API — no files needed) -->
+
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
