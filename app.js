@@ -7,7 +7,7 @@ const silentAudio = new Audio('sounds/silent.m4a');
 document.addEventListener('touchstart', () => {
   silentAudio.play().then(() => {
     AudioFX.resume();
-  }).catch(() => {});
+  }).catch(() => { });
 }, { once: true });
 
 // ---- State ----
@@ -50,7 +50,7 @@ const backHint = `<p style="font-size:1rem;">3. press <svg width="16" height="16
 
 let toggleHintShown = false;
 function showToggleHint() {
-  AudioFX.resume(); 
+  AudioFX.resume();
   let msg = document.querySelector('.hint-msg');
   const hint = `<p style="font-size:1rem;">1. tap cassette to see/hide card</p>${playHint}${backHint}`;
   if (!msg) {
@@ -162,7 +162,11 @@ function insertCassette(idx) {
   pageShelf.classList.remove('active');
   pagePlayer.classList.add('active');
   window.scrollTo(0, 0);
-  if (!toggleHintShown) showToggleHint();
+  lyricsBox.innerHTML = `
+  <span class="lyrics-line" style="opacity:1">1. tap cassette to see/hide card</span>
+  <span class="lyrics-line" style="opacity:1">2. press ▶ to start track</span>
+  <span class="lyrics-line" style="opacity:1">3. press <svg width="12" height="12" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;"><polygon points="50,10 90,60 10,60" fill="currentColor"/><rect x="10" y="68" width="80" height="18" rx="3" fill="currentColor"/></svg> to return</span>
+`;
 }
 
 // ---- Apply friend colour theme ----
