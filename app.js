@@ -163,9 +163,11 @@ function insertCassette(idx) {
   pagePlayer.classList.add('active');
   window.scrollTo(0, 0);
   lyricsBox.innerHTML = `
-  <span class="lyrics-line" style="opacity:1">1. tap cassette to see/hide card</span>
-  <span class="lyrics-line" style="opacity:1">2. press ▶ to start track</span>
-  <span class="lyrics-line" style="opacity:1">3. press <svg width="12" height="12" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;"><polygon points="50,10 90,60 10,60" fill="currentColor"/><rect x="10" y="68" width="80" height="18" rx="3" fill="currentColor"/></svg> to return</span>
+   <div style="display:flex;flex-direction:column;gap:0.4rem;opacity:0.8;">
+    <div>1. tap cassette to see/hide card</div>
+    <div>2. press ▶ to start track</div>
+    <div>3. press <svg width="12" height="12" viewBox="0 0 100 100" style="vertical-align:middle;display:inline-block;"><polygon points="50,10 90,60 10,60" fill="currentColor"/><rect x="10" y="68" width="80" height="18" rx="3" fill="currentColor"/></svg> to return</div>
+  </div>
 `;
 }
 
@@ -403,7 +405,7 @@ const LYRICS_INTERVAL_MS = 4700; // new line every 13 seconds
 
 function clearLyrics() {
   if (lyricsInterval) { clearInterval(lyricsInterval); lyricsInterval = null; }
-  lyricsBox.innerHTML = '';
+  lyricsBox.innerHTML = '';  // this should already clear it — check startLyrics calls clearLyrics
   lyricsLineIdx = 0;
 }
 
@@ -412,6 +414,7 @@ function pauseLyrics() {
 }
 
 function startLyrics() {
+  clearLyrics();
   const song = FRIENDS[currentFriendIdx].songs[currentSongIdx];
   if (!song.lyrics || song.lyrics.length === 0) return;
 
