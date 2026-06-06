@@ -362,8 +362,10 @@ btnEject.addEventListener('click', () => {
 // ---- Toggle Player card ----
 const cardToggleBtn = document.getElementById('card-toggle-btn');
 const playerRight = document.querySelector('.player-right');
-playerRight.classList.add('collapsed');
-cardToggleBtn.textContent = '▶';
+
+// This collapses player card by default
+// playerRight.classList.add('collapsed');
+// cardToggleBtn.textContent = '▶';
 
 cardToggleBtn.addEventListener('click', () => {
   playerRight.classList.toggle('collapsed');
