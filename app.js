@@ -52,7 +52,7 @@ let toggleHintShown = false;
 function showToggleHint() {
   AudioFX.resume(); 
   let msg = document.querySelector('.hint-msg');
-  const hint = `<p style="font-size:1rem;">1. tap cassette to see card</p>${playHint}${backHint}`;
+  const hint = `<p style="font-size:1rem;">1. tap cassette to see/hide card</p>${playHint}${backHint}`;
   if (!msg) {
     msg = document.createElement('div');
     msg.className = 'hint-msg';
@@ -162,7 +162,7 @@ function insertCassette(idx) {
   pageShelf.classList.remove('active');
   pagePlayer.classList.add('active');
   window.scrollTo(0, 0);
-  // if (!toggleHintShown) showToggleHint();
+  if (!toggleHintShown) showToggleHint();
 }
 
 // ---- Apply friend colour theme ----
