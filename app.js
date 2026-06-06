@@ -255,7 +255,9 @@ function pauseCurrentSong() {
 
 function setPlaying(val) {
   isPlaying = val;
-  btnPlay.textContent = val ? '⏸' : '▶';
+  btnPlay.innerHTML = val 
+    ? '<span class="pause-bars"><span class="pause-bar"></span><span class="pause-bar"></span></span>'
+    : '<span class="tri-right"></span>';
   setSpoolsSpin(val);
 }
 

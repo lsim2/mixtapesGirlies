@@ -355,6 +355,7 @@ body::before {
 .ctrl-btn {
   font-family: var(--font);
   font-size: 1.1rem;
+  font-variant-emoji: text;
   width: 52px;
   height: 52px;
   background: var(--paper-dark);
@@ -368,6 +369,7 @@ body::before {
   align-items: center;
   justify-content: center;
 }
+
 
 .ctrl-btn:hover {
   background: var(--theme);
@@ -446,6 +448,30 @@ body::before {
   border-bottom: 7px solid transparent;
   border-right: 10px solid var(--ink);
 }
+
+.tri-bar {
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--ink);
+  vertical-align: middle;
+}
+
+.pause-bars {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.pause-bar {
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: white;
+  border-radius: 1px;
+}
+
+.ctrl-btn:hover .tri-bar { background: white; }
 
 .ctrl-btn:hover .tri-right { border-left-color: white; }
 .ctrl-btn:hover .tri-left { border-right-color: white; }
